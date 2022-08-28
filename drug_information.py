@@ -28,6 +28,7 @@ if user_input in name_url_drug:
         functions.save_file(res_parsing_dict)
         #добавляем в базу данных
         functions.data_to_the_database()
+#если нет в списке, то проводим отедльный парсинг с сайта vidal.ru
 else:
     #получаем url_name препарата
     url_name = functions.word_parser(letter)
