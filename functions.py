@@ -133,9 +133,10 @@ def save_file(res_parsing_dict):
 #функция внесения нужной информации в базу данных
 def data_to_the_database():
     #присваиваем переменной название препарата 
-    name_query = classes_ORM.session.query(classes_ORM.Drug_info).all()
+    name_query = classes_ORM.session.query(classes_ORM.Data).all()
      #формируем список имен
     name = []
+    print(name)
     for i in name_query:
         name.append(i.name)
     name = set(name)
@@ -150,10 +151,9 @@ def data_to_the_database():
     indications = text['показания к применению']
     doses = text['режим дозирования']
     contraindications = text['противопоказания']
-
     #Сначала вносим данные в таблицы с вакансиями, городами и скиллами. Если такие уже есть, данные не вносятся.
     if name_drug not in name:
-        res = classes_ORM.Drug_info(name_drug, pharm_group, manufacturer, form, indications, doses, contraindications)
+        res = classes_ORM.Data(name_drug, pharm_group, manufacturer, form, indications, doses, contraindications)
         classes_ORM.session.add(res)
     else:
         pass
@@ -163,7 +163,7 @@ def data_to_the_database():
 #функция получения нужной информации из существующей базы данных
 def look_at_my_data(user_input):
     #Вытыскмваем id добавленных или уже существующих значений города и вакансии, полученных с очередного парсинга
-    data = classes_ORM.session.query(classes_ORM.Drug_info).filter(classes_ORM.Drug_info.name == user_input).all()
+    data = classes_ORM.session.query(classes_ORM.Data).filter(classes_ORM.Data.name == user_input).all()
 
     res = {}
     for i in data:

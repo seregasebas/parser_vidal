@@ -3,12 +3,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import sqlite3
 
-engine = create_engine('sqlite:///hh_api_data.db', echo=True)
+
+engine = create_engine('sqlite:///Drug_info.db', echo=True)
 Base = declarative_base()
-# Создание сессии
-Session = sessionmaker(bind=engine)
-# create a Session
-session = Session()
 
 class Data(Base):
     __tablename__ = 'data'
@@ -32,3 +29,11 @@ class Data(Base):
 
     def __str__(self):
         return f'Информация по препарату {self.name} успешно добавлена'
+
+# Создание таблицы
+Base.metadata.create_all(engine)
+# Заполняем таблицы
+Session = sessionmaker(bind=engine)
+# create a Session
+session = Session()
+session.commit()

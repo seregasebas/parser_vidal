@@ -12,16 +12,16 @@ else:
     functions.parser_first()
 
 # User вводит название препарата
-user_input = input('введите название препарата на русском языке: ')
+user_input = input('введите название препарата на русском языке: ').lower()
 #сохраняем первую букву
 letter = user_input[0].lower()
 
 #проверяем, что препарат есть в списке 
 if user_input in name_url_drug:
-    #результат парсинга и на выходе информация об искомом перпарате
-    if functions.look_at_my_data(user_input) == True:
+    #проверяем препарат в базе. Если есть, то вытвскиваем инфу оттуда
+    if bool(functions.look_at_my_data(user_input)):
+        #информация об искомом перпарате из своей базы данных
         res_parsing_dict = functions.look_at_my_data(user_input)
-        #запись данных в файл
         functions.save_file(res_parsing_dict)
     else:
         res_parsing_dict = functions.res_parsing(user_input, name_url_drug)
@@ -40,3 +40,9 @@ else:
     #добавляем в базу данных
     functions.data_to_the_database()
 
+#Вывод информации
+with open('medicine.json', 'r', encoding='utf-8') as f:
+    text = json.load(f)
+
+for key, value in text.items():
+    print(f'{key} : {value}')
